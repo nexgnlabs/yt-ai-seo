@@ -3,127 +3,109 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI YouTube SEO Pro (Gemini 2.5 Flash)</title>
+    <title>AI YouTube Scripter | Puter Edition</title>
     <script src="https://js.puter.com/v2/"></script>
     <style>
-        :root { --yt-red: #ff0000; --bg: #f4f7f6; --card: #ffffff; --text: #333; }
-        body { font-family: 'Inter', system-ui, sans-serif; background: var(--bg); color: var(--text); padding: 15px; margin: 0; }
-        .container { max-width: 750px; margin: 20px auto; background: var(--card); padding: 35px; border-radius: 20px; box-shadow: 0 15px 35px rgba(0,0,0,0.05); position: relative; }
+        :root { --yt: #ff0000; --bg: #f8fafc; --text: #1e293b; }
+        body { font-family: 'Inter', system-ui, sans-serif; background: var(--bg); padding: 20px; color: var(--text); }
+        .container { max-width: 850px; margin: 40px auto; background: white; padding: 40px; border-radius: 24px; box-shadow: 0 10px 40px rgba(0,0,0,0.05); }
+        h1 { color: var(--yt); text-align: center; font-size: 32px; margin-bottom: 5px; }
+        .sub { text-align: center; color: #64748b; margin-bottom: 35px; font-size: 14px; }
         
-        #loader {
-            display: none; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(255,255,255,0.92); border-radius: 20px; z-index: 100;
-            flex-direction: column; align-items: center; justify-content: center;
-        }
-        .circle { width: 50px; height: 50px; border: 4px solid #eee; border-top: 4px solid var(--yt-red); border-radius: 50%; animation: spin 1s linear infinite; }
-        @keyframes spin { to { transform: rotate(360deg); } }
-
-        h1 { color: var(--yt-red); text-align: center; font-size: 26px; margin-bottom: 30px; }
-        .key-active { color: #2e7d32; font-size: 11px; text-align: center; font-weight: bold; margin-bottom: 20px; background: #e8f5e9; padding: 5px; border-radius: 5px; }
+        label { font-weight: 700; display: block; margin-top: 20px; font-size: 13px; text-transform: uppercase; color: #475569; }
+        input, select { width: 100%; padding: 15px; margin-top: 8px; border: 2px solid #e2e8f0; border-radius: 12px; font-size: 16px; box-sizing: border-box; background: #fff; }
         
-        label { display: block; margin-top: 15px; font-weight: 700; font-size: 12px; color: #666; text-transform: uppercase; }
-        textarea, input { width: 100%; padding: 15px; border: 2px solid #f0f0f0; border-radius: 12px; box-sizing: border-box; margin-top: 8px; font-size: 15px; }
-        textarea:focus { border-color: var(--yt-red); outline: none; background: #fff; }
+        .btn-gen { background: var(--yt); color: white; border: none; padding: 20px; width: 100%; border-radius: 12px; font-size: 18px; font-weight: 800; cursor: pointer; margin-top: 25px; transition: 0.3s; box-shadow: 0 4px 15px rgba(255,0,0,0.2); }
+        .btn-gen:hover { background: #cc0000; transform: translateY(-2px); }
+        .btn-gen:disabled { background: #cbd5e1; cursor: not-allowed; }
 
-        .gen-btn { background: var(--yt-red); color: white; border: none; padding: 18px; width: 100%; border-radius: 12px; font-size: 18px; font-weight: 800; cursor: pointer; margin-top: 30px; transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
-        .gen-btn:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(255,0,0,0.3); }
-
-        .result-card { background: #fafafa; border: 1px solid #f0f0f0; padding: 20px; border-radius: 15px; margin-top: 25px; }
-        .copy-link { float: right; color: #1a73e8; cursor: pointer; font-size: 12px; font-weight: 900; }
+        #output { margin-top: 35px; white-space: pre-wrap; background: #fdfdfd; padding: 30px; border-radius: 15px; border: 1px solid #e2e8f0; line-height: 1.8; color: #1e293b; min-height: 300px; display: none; }
+        .loader { display: none; text-align: center; color: var(--yt); font-weight: 800; margin-top: 20px; }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <div id="loader">
-        <div class="circle"></div>
-        <p style="margin-top: 15px; font-weight: bold;">Gemini 2.5 Flash is thinking...</p>
-    </div>
+    <h1>YouTube Scripter Pro</h1>
+    <p class="sub">Serverless Engine • No API Key Required • Gemini 2.0 Flash</p>
+    
+    <label>Video Style</label>
+    <select id="style">
+        <option value="Talking Head (Educational & Direct)">Talking Head (Informative)</option>
+        <option value="Documentary (Deep Dive & Dramatic Storytelling)">Documentary (Cinematic)</option>
+        <option value="Vlog (Casual, Fast-paced & Relatable)">Vlog (Personal)</option>
+        <option value="Mystery/Thriller (High Suspense & Storytelling)">Mystery/Thriller (Storytelling)</option>
+    </select>
 
-    <h1>YouTube SEO Architect</h1>
-    <div class="key-active">● PUTER AUTO-LOGIN ACTIVE</div>
+    <label>Video Topic</label>
+    <input type="text" id="topic" placeholder="e.g., How AI is changing India in 2026">
 
-    <label>Describe your video idea</label>
-    <textarea id="videoTopic" rows="4" placeholder="e.g., A tutorial on how to use AI to write better emails..."></textarea>
+    <label>Language</label>
+    <select id="lang">
+        <option value="Hinglish (Mix of Hindi and English)">Hinglish</option>
+        <option value="Hindi">Hindi</option>
+        <option value="English">English</option>
+    </select>
 
-    <button class="gen-btn" onclick="generateSEO()">GENERATE SEO PACKAGE</button>
-
-    <div class="result-card">
-        <span class="copy-link" onclick="copy('resTitle')">COPY</span>
-        <label>High-CTR Title</label>
-        <input type="text" id="resTitle" readonly placeholder="Waiting for AI...">
-    </div>
-
-    <div class="result-card">
-        <span class="copy-link" onclick="copy('resDesc')">COPY</span>
-        <label>Optimized Description</label>
-        <textarea id="resDesc" rows="8" readonly placeholder="Waiting for AI..."></textarea>
-    </div>
-
-    <div class="result-card">
-        <span class="copy-link" onclick="copy('resTags')">COPY</span>
-        <label>Smart Hashtags</label>
-        <input type="text" id="resTags" readonly placeholder="#example">
-    </div>
+    <button class="btn-gen" id="genBtn" onclick="generateScript()">GENERATE 10-MINUTE SCRIPT</button>
+    
+    <div class="loader" id="loader">🧠 AI IS THINKING... (Streaming Response)</div>
+    <div id="output"></div>
 </div>
 
 <script>
-    async function generateSEO() {
-        const input = document.getElementById('videoTopic').value.trim();
+    async function generateScript() {
+        const topic = document.getElementById('topic').value;
+        const lang = document.getElementById('lang').value;
+        const style = document.getElementById('style').value;
+        const out = document.getElementById('output');
         const loader = document.getElementById('loader');
+        const btn = document.getElementById('genBtn');
 
-        if (!input) return alert("Please enter a video topic!");
+        if (!topic) return alert("Please enter a topic!");
 
-        loader.style.display = 'flex';
+        // Reset UI
+        loader.style.display = "block";
+        out.style.display = "block";
+        out.innerHTML = "<i>Initializing stream...</i>";
+        btn.disabled = true;
 
-        // Clearing previous results
-        document.getElementById('resTitle').value = "";
-        document.getElementById('resDesc').value = "";
-        document.getElementById('resTags').value = "";
+        const prompt = `Act as a professional YouTube Script Writer. Write a deep, conversational 1800-word script for a 10-minute video.
+        Topic: "${topic}"
+        Style: ${style}
+        Language: ${lang}
+        
+        Include:
+        - Hook (0:00-0:45): High intensity opening.
+        - Intro: Emotional connection to topic.
+        - Chapters: 5 clear points with [Visual Cues] for the editor.
+        - Mid-Video: Question for the audience.
+        - Outro: Strong CTA and summary.`;
 
-        // Using the auto-login async pattern you provided
-        (async () => {
-            try {
-                const flash_resp = await puter.ai.chat(
-                    `Act as a YouTube SEO Specialist. For this video: "${input}", generate:
-                    1. One catchy, high-CTR Title (max 70 chars).
-                    2. A long description (200 words) with keyword density and timestamp placeholders.
-                    3. 5 viral hashtags.
-                    Format response exactly:
-                    TITLE: [Title]
-                    DESC: [Description]
-                    TAGS: [Hashtags]`,
-                    { model: 'gemini-2.5-flash', stream: true }
-                );
+        try {
+            // Puter.js Streaming Chat with Gemini 2.0 Flash
+            const response = await puter.ai.chat(prompt, {
+                model: 'gemini-2.0-flash',
+                stream: true
+            });
 
-                let fullText = "";
-                for await (const part of flash_resp) {
-                    if (part?.text) {
-                        fullText += part.text;
-                        // Optional: Real-time parsing could go here, 
-                        // but for SEO we parse after the stream finishes for accuracy
-                    }
+            out.innerHTML = ""; // Clear the initialization message
+            
+            for await (const part of response) {
+                if (part?.text) {
+                    // Convert newlines to HTML line breaks for the web display
+                    out.innerHTML += part.text.replaceAll('\n', '<br>');
+                    // Auto-scroll to bottom as text generates
+                    window.scrollTo(0, document.body.scrollHeight);
                 }
-
-                // Parse the final result
-                document.getElementById('resTitle').value = fullText.split('TITLE:')[1]?.split('DESC:')[0]?.trim() || "Generated Title";
-                document.getElementById('resDesc').value = fullText.split('DESC:')[1]?.split('TAGS:')[0]?.trim() || "Generated Description";
-                document.getElementById('resTags').value = fullText.split('TAGS:')[1]?.trim() || "#SEO #AI";
-
-            } catch (err) {
-                console.error("Puter Error:", err);
-                alert("AI Service temporary unavailable.");
-            } finally {
-                loader.style.display = 'none';
             }
-        })();
-    }
 
-    function copy(id) {
-        const el = document.getElementById(id);
-        el.select();
-        navigator.clipboard.writeText(el.value);
-        alert("Copied!");
+        } catch (e) {
+            out.innerHTML = `<span style="color:red">Error: ${e.message}. <br>Make sure you are logged into Puter or have enough credits.</span>`;
+        } finally {
+            loader.style.display = "none";
+            btn.disabled = false;
+        }
     }
 </script>
 
