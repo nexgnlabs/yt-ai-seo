@@ -3,109 +3,137 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI YouTube Scripter | Puter Edition</title>
+    <title>AI YouTube SEO Pro (Gemini 3 Edition)</title>
     <script src="https://js.puter.com/v2/"></script>
     <style>
-        :root { --yt: #ff0000; --bg: #f8fafc; --text: #1e293b; }
-        body { font-family: 'Inter', system-ui, sans-serif; background: var(--bg); padding: 20px; color: var(--text); }
-        .container { max-width: 850px; margin: 40px auto; background: white; padding: 40px; border-radius: 24px; box-shadow: 0 10px 40px rgba(0,0,0,0.05); }
-        h1 { color: var(--yt); text-align: center; font-size: 32px; margin-bottom: 5px; }
-        .sub { text-align: center; color: #64748b; margin-bottom: 35px; font-size: 14px; }
+        :root { --yt-red: #ff0000; --bg: #f4f7f6; --card: #ffffff; --text: #333; }
+        body { font-family: 'Inter', system-ui, sans-serif; background: var(--bg); color: var(--text); padding: 15px; margin: 0; }
+        .container { max-width: 750px; margin: 20px auto; background: var(--card); padding: 35px; border-radius: 20px; box-shadow: 0 15px 35px rgba(0,0,0,0.05); position: relative; }
         
-        label { font-weight: 700; display: block; margin-top: 20px; font-size: 13px; text-transform: uppercase; color: #475569; }
-        input, select { width: 100%; padding: 15px; margin-top: 8px; border: 2px solid #e2e8f0; border-radius: 12px; font-size: 16px; box-sizing: border-box; background: #fff; }
-        
-        .btn-gen { background: var(--yt); color: white; border: none; padding: 20px; width: 100%; border-radius: 12px; font-size: 18px; font-weight: 800; cursor: pointer; margin-top: 25px; transition: 0.3s; box-shadow: 0 4px 15px rgba(255,0,0,0.2); }
-        .btn-gen:hover { background: #cc0000; transform: translateY(-2px); }
-        .btn-gen:disabled { background: #cbd5e1; cursor: not-allowed; }
+        #loader {
+            display: none; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(255,255,255,0.95); border-radius: 20px; z-index: 100;
+            flex-direction: column; align-items: center; justify-content: center;
+        }
+        .circle { width: 50px; height: 50px; border: 4px solid #eee; border-top: 4px solid var(--yt-red); border-radius: 50%; animation: spin 1s linear infinite; }
+        @keyframes spin { to { transform: rotate(360deg); } }
 
-        #output { margin-top: 35px; white-space: pre-wrap; background: #fdfdfd; padding: 30px; border-radius: 15px; border: 1px solid #e2e8f0; line-height: 1.8; color: #1e293b; min-height: 300px; display: none; }
-        .loader { display: none; text-align: center; color: var(--yt); font-weight: 800; margin-top: 20px; }
+        h1 { color: var(--yt-red); text-align: center; font-size: 26px; margin-bottom: 30px; }
+        .key-active { color: #1565c0; font-size: 11px; text-align: center; font-weight: bold; margin-bottom: 20px; background: #e3f2fd; padding: 5px; border-radius: 5px; }
+        
+        label { display: block; margin-top: 15px; font-weight: 700; font-size: 12px; color: #666; text-transform: uppercase; }
+        textarea, input { width: 100%; padding: 15px; border: 2px solid #f0f0f0; border-radius: 12px; box-sizing: border-box; margin-top: 8px; font-size: 15px; transition: 0.2s; }
+        textarea:focus { border-color: var(--yt-red); outline: none; background: #fff; }
+
+        .gen-btn { background: var(--yt-red); color: white; border: none; padding: 18px; width: 100%; border-radius: 12px; font-size: 18px; font-weight: 800; cursor: pointer; margin-top: 30px; transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        .gen-btn:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(255,0,0,0.3); }
+
+        .result-card { background: #fafafa; border: 1px solid #f0f0f0; padding: 20px; border-radius: 15px; margin-top: 25px; position: relative; }
+        .copy-link { position: absolute; top: 20px; right: 20px; color: #1a73e8; cursor: pointer; font-size: 11px; font-weight: 900; }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h1>YouTube Scripter Pro</h1>
-    <p class="sub">Serverless Engine • No API Key Required • Gemini 2.0 Flash</p>
-    
-    <label>Video Style</label>
-    <select id="style">
-        <option value="Talking Head (Educational & Direct)">Talking Head (Informative)</option>
-        <option value="Documentary (Deep Dive & Dramatic Storytelling)">Documentary (Cinematic)</option>
-        <option value="Vlog (Casual, Fast-paced & Relatable)">Vlog (Personal)</option>
-        <option value="Mystery/Thriller (High Suspense & Storytelling)">Mystery/Thriller (Storytelling)</option>
-    </select>
+    <div id="loader">
+        <div class="circle"></div>
+        <p style="margin-top: 15px; font-weight: bold;">Gemini 3 is architecting...</p>
+    </div>
 
-    <label>Video Topic</label>
-    <input type="text" id="topic" placeholder="e.g., How AI is changing India in 2026">
+    <h1>YouTube SEO Architect</h1>
+    <div class="key-active">● POWERED BY GEMINI 3 FLASH (PREVIEW)</div>
 
-    <label>Language</label>
-    <select id="lang">
-        <option value="Hinglish (Mix of Hindi and English)">Hinglish</option>
-        <option value="Hindi">Hindi</option>
-        <option value="English">English</option>
-    </select>
+    <label>Describe your video idea</label>
+    <textarea id="videoTopic" rows="4" placeholder="e.g., A deep dive into how SpaceX's Starship works..."></textarea>
 
-    <button class="btn-gen" id="genBtn" onclick="generateScript()">GENERATE 10-MINUTE SCRIPT</button>
-    
-    <div class="loader" id="loader">🧠 AI IS THINKING... (Streaming Response)</div>
-    <div id="output"></div>
+    <button class="gen-btn" onclick="generateSEO()">GENERATE ACCURATE SEO</button>
+
+    <div class="result-card">
+        <span class="copy-link" onclick="copy('resTitle')">COPY</span>
+        <label>High-CTR Title</label>
+        <input type="text" id="resTitle" readonly placeholder="Awaiting Gemini 3...">
+    </div>
+
+    <div class="result-card">
+        <span class="copy-link" onclick="copy('resDesc')">COPY</span>
+        <label>Optimized Description</label>
+        <textarea id="resDesc" rows="8" readonly placeholder="Awaiting Gemini 3..."></textarea>
+    </div>
+
+    <div class="result-card">
+        <span class="copy-link" onclick="copy('resTags')">COPY</span>
+        <label>Smart Hashtags</label>
+        <input type="text" id="resTags" readonly placeholder="#SEO #Gemini3">
+    </div>
 </div>
 
 <script>
-    async function generateScript() {
-        const topic = document.getElementById('topic').value;
-        const lang = document.getElementById('lang').value;
-        const style = document.getElementById('style').value;
-        const out = document.getElementById('output');
+    async function generateSEO() {
+        const input = document.getElementById('videoTopic').value.trim();
         const loader = document.getElementById('loader');
-        const btn = document.getElementById('genBtn');
 
-        if (!topic) return alert("Please enter a topic!");
+        if (!input) return alert("Please enter a video topic!");
 
-        // Reset UI
-        loader.style.display = "block";
-        out.style.display = "block";
-        out.innerHTML = "<i>Initializing stream...</i>";
-        btn.disabled = true;
+        loader.style.display = 'flex';
 
-        const prompt = `Act as a professional YouTube Script Writer. Write a deep, conversational 1800-word script for a 10-minute video.
-        Topic: "${topic}"
-        Style: ${style}
-        Language: ${lang}
-        
-        Include:
-        - Hook (0:00-0:45): High intensity opening.
-        - Intro: Emotional connection to topic.
-        - Chapters: 5 clear points with [Visual Cues] for the editor.
-        - Mid-Video: Question for the audience.
-        - Outro: Strong CTA and summary.`;
+        // Clear previous values
+        document.getElementById('resTitle').value = "";
+        document.getElementById('resDesc').value = "Generating...";
+        document.getElementById('resTags').value = "";
 
-        try {
-            // Puter.js Streaming Chat with Gemini 2.0 Flash
-            const response = await puter.ai.chat(prompt, {
-                model: 'gemini-2.0-flash',
-                stream: true
-            });
+        // Auto-executing async logic using Gemini 3
+        (async () => {
+            try {
+                const response = await puter.ai.chat(
+                    `Act as an expert YouTube SEO Architect. Use advanced reasoning to analyze this topic: "${input}".
+                    Generate the following strictly:
+                    1. One catchy, viral, high-CTR Title (under 70 chars).
+                    2. A professional 200-word description optimized for search engines, including a "What's in this video" section and timestamp placeholders.
+                    3. 5 high-performing viral hashtags.
 
-            out.innerHTML = ""; // Clear the initialization message
-            
-            for await (const part of response) {
-                if (part?.text) {
-                    // Convert newlines to HTML line breaks for the web display
-                    out.innerHTML += part.text.replaceAll('\n', '<br>');
-                    // Auto-scroll to bottom as text generates
-                    window.scrollTo(0, document.body.scrollHeight);
+                    Response Format:
+                    TITLE: [Title here]
+                    DESC: [Description here]
+                    TAGS: [Hashtags here]`,
+                    { model: 'gemini-3-flash-preview', stream: true }
+                );
+
+                let fullText = "";
+                for await (const part of response) {
+                    if (part?.text) {
+                        fullText += part.text;
+                        // Optional: you could update the UI here for a "typing" effect
+                    }
                 }
-            }
 
-        } catch (e) {
-            out.innerHTML = `<span style="color:red">Error: ${e.message}. <br>Make sure you are logged into Puter or have enough credits.</span>`;
-        } finally {
-            loader.style.display = "none";
-            btn.disabled = false;
-        }
+                // Final Parse
+                const titlePart = fullText.split('TITLE:')[1]?.split('DESC:')[0]?.trim();
+                const descPart = fullText.split('DESC:')[1]?.split('TAGS:')[0]?.trim();
+                const tagsPart = fullText.split('TAGS:')[1]?.trim();
+
+                document.getElementById('resTitle').value = titlePart || "Error generating title";
+                document.getElementById('resDesc').value = descPart || "Error generating description";
+                document.getElementById('resTags').value = tagsPart || "#SEO";
+
+            } catch (err) {
+                console.error("Gemini 3 Error:", err);
+                alert("The Gemini 3 service is currently busy. Please try again in a moment.");
+            } finally {
+                loader.style.display = 'none';
+            }
+        })();
+    }
+
+    function copy(id) {
+        const el = document.getElementById(id);
+        el.select();
+        navigator.clipboard.writeText(el.value);
+        // Simple visual feedback
+        const originalText = document.querySelector(`[onclick="copy('${id}')"]`).innerText;
+        document.querySelector(`[onclick="copy('${id}')"]`).innerText = "COPIED!";
+        setTimeout(() => {
+            document.querySelector(`[onclick="copy('${id}')"]`).innerText = "COPY";
+        }, 2000);
     }
 </script>
 
