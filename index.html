@@ -3,152 +3,131 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI YouTube SEO Pro (Gemini 3 Pro Edition)</title>
+    <title>AI YouTube Competitor Architect (Gemini 3 Pro)</title>
     <script src="https://js.puter.com/v2/"></script>
     <style>
-        :root { --yt-red: #ff0000; --bg: #f4f7f6; --card: #ffffff; --text: #333; }
-        body { font-family: 'Inter', system-ui, sans-serif; background: var(--bg); color: var(--text); padding: 15px; margin: 0; }
-        .container { max-width: 750px; margin: 20px auto; background: var(--card); padding: 35px; border-radius: 20px; box-shadow: 0 15px 35px rgba(0,0,0,0.05); position: relative; }
+        :root { --yt-red: #ff0000; --bg: #0f0f0f; --card: #1e1e1e; --text: #fff; }
+        body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); padding: 15px; }
+        .container { max-width: 800px; margin: 20px auto; background: var(--card); padding: 30px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
         
         #loader {
-            display: none; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(255,255,255,0.92); border-radius: 20px; z-index: 100;
-            flex-direction: column; align-items: center; justify-content: center;
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.85); z-index: 1000; flex-direction: column; align-items: center; justify-content: center;
         }
-        .circle { width: 50px; height: 50px; border: 4px solid #eee; border-top: 4px solid var(--yt-red); border-radius: 50%; animation: spin 1s linear infinite; }
+        .circle { width: 60px; height: 60px; border: 5px solid #333; border-top: 5px solid var(--yt-red); border-radius: 50%; animation: spin 1s linear infinite; }
         @keyframes spin { to { transform: rotate(360deg); } }
 
-        h1 { color: var(--yt-red); text-align: center; font-size: 26px; margin-bottom: 10px; }
-        .key-active { color: #1565c0; font-size: 11px; text-align: center; font-weight: bold; margin-bottom: 20px; background: #e3f2fd; padding: 5px; border-radius: 5px; }
+        h1 { text-align: center; color: var(--yt-red); letter-spacing: -1px; }
+        .badge { background: #2a2a2a; color: #aaa; font-size: 10px; padding: 4px 10px; border-radius: 4px; display: inline-block; margin-bottom: 20px; border: 1px solid #444; }
         
-        label { display: block; margin-top: 15px; font-weight: 700; font-size: 12px; color: #666; text-transform: uppercase; }
-        textarea, input { width: 100%; padding: 15px; border: 2px solid #f0f0f0; border-radius: 12px; box-sizing: border-box; margin-top: 8px; font-size: 15px; transition: 0.3s; }
-        textarea:focus { border-color: var(--yt-red); outline: none; background: #fff; }
+        label { display: block; margin-top: 20px; font-weight: 600; color: #ff4d4d; font-size: 13px; text-transform: uppercase; }
+        input, textarea { width: 100%; padding: 15px; background: #121212; border: 1px solid #333; border-radius: 10px; color: #fff; margin-top: 8px; box-sizing: border-box; }
+        input:focus, textarea:focus { border-color: var(--yt-red); outline: none; }
 
-        .gen-btn { background: var(--yt-red); color: white; border: none; padding: 18px; width: 100%; border-radius: 12px; font-size: 18px; font-weight: 800; cursor: pointer; margin-top: 30px; transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
-        .gen-btn:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(255,0,0,0.3); }
+        .analyze-btn { background: var(--yt-red); color: white; border: none; padding: 20px; width: 100%; border-radius: 12px; font-size: 18px; font-weight: 800; cursor: pointer; margin-top: 25px; transition: 0.2s; }
+        .analyze-btn:hover { background: #cc0000; transform: scale(1.01); }
 
-        .result-card { background: #fafafa; border: 1px solid #f0f0f0; padding: 20px; border-radius: 15px; margin-top: 25px; position: relative; }
-        .copy-link { position: absolute; top: 20px; right: 20px; color: #1a73e8; cursor: pointer; font-size: 11px; font-weight: 900; }
-        .status-bar { text-align: right; font-size: 10px; color: #999; margin-top: -15px; margin-bottom: 10px; }
+        .result-box { margin-top: 25px; background: #252525; padding: 20px; border-radius: 12px; border-left: 4px solid var(--yt-red); position: relative; }
+        .copy-btn { position: absolute; top: 15px; right: 15px; color: #3ea6ff; cursor: pointer; font-size: 12px; font-weight: bold; }
     </style>
 </head>
 <body>
 
+<div id="loader">
+    <div class="circle"></div>
+    <p style="margin-top: 20px; font-weight: bold;">Analyzing Viral Patterns...</p>
+</div>
+
 <div class="container">
-    <div id="loader">
-        <div class="circle"></div>
-        <p style="margin-top: 15px; font-weight: bold;">Gemini 3 Pro is Thinking...</p>
-    </div>
-
-    <div id="user-info" class="status-bar">Connecting to Puter...</div>
     <h1>YouTube SEO Architect</h1>
-    <div class="key-active">● POWERED BY GEMINI 3 PRO PREVIEW</div>
+    <div class="badge">PRO ENGINE: GEMINI-3-PRO-PREVIEW</div>
 
-    <label>Describe your video idea</label>
-    <textarea id="videoTopic" rows="4" placeholder="e.g., A deep dive into how quantum computing works..."></textarea>
+    <label>1. Competitor Video URL (Optional but Recommended)</label>
+    <input type="text" id="competitorUrl" placeholder="https://www.youtube.com/watch?v=...">
 
-    <button class="gen-btn" onclick="generateSEO()">GENERATE SEO PACKAGE</button>
+    <label>2. Your Video Topic / Script Idea</label>
+    <textarea id="videoTopic" rows="3" placeholder="I am making a video about how to grow a gaming channel in 2025..."></textarea>
 
-    <div class="result-card">
-        <span class="copy-link" onclick="copy('resTitle')">COPY</span>
-        <label>High-CTR Title</label>
-        <input type="text" id="resTitle" readonly placeholder="Waiting for AI...">
+    <button class="analyze-btn" onclick="runSEOArchitect()">ANALYZE & GENERATE SEO</button>
+
+    <div class="result-box">
+        <span class="copy-btn" onclick="copyText('resTitle')">COPY</span>
+        <label>Analyzed High-CTR Title</label>
+        <input type="text" id="resTitle" readonly>
     </div>
 
-    <div class="result-card">
-        <span class="copy-link" onclick="copy('resDesc')">COPY</span>
-        <label>Optimized Description</label>
-        <textarea id="resDesc" rows="8" readonly placeholder="Waiting for AI..."></textarea>
+    <div class="result-box">
+        <span class="copy-btn" onclick="copyText('resDesc')">COPY</span>
+        <label>Keyword-Rich AI Description</label>
+        <textarea id="resDesc" rows="6" readonly></textarea>
     </div>
 
-    <div class="result-card">
-        <span class="copy-link" onclick="copy('resTags')">COPY</span>
-        <label>Smart Hashtags</label>
-        <input type="text" id="resTags" readonly placeholder="#example">
+    <div class="result-box">
+        <span class="copy-btn" onclick="copyText('resTags')">COPY</span>
+        <label>Extracted Viral Tags</label>
+        <input type="text" id="resTags" readonly>
     </div>
 </div>
 
 <script>
-    // Handle Auto-Onboarding/Login logic on load
-    (async () => {
-        try {
-            if (!puter.auth.isSignedIn()) {
-                // Creates a guest account automatically so the AI works immediately
-                await puter.auth.signIn({ attempt_temp_user_creation: true });
-            }
-            const user = await puter.auth.getUser();
-            document.getElementById('user-info').innerText = `Logged in as: ${user.username}`;
-        } catch (e) {
-            document.getElementById('user-info').innerText = "Running in Guest Mode";
-        }
-    })();
-
-    async function generateSEO() {
-        const input = document.getElementById('videoTopic').value.trim();
+    async function runSEOArchitect() {
+        const topic = document.getElementById('videoTopic').value.trim();
+        const competitorUrl = document.getElementById('competitorUrl').value.trim();
         const loader = document.getElementById('loader');
 
-        if (!input) return alert("Please enter a video topic!");
-
+        if (!topic) return alert("Please enter your video topic.");
         loader.style.display = 'flex';
 
-        // Clear fields
-        document.getElementById('resTitle').value = "";
-        document.getElementById('resDesc').value = "Architecting content...";
-        document.getElementById('resTags').value = "";
-
         try {
-            // Using the requested Gemini 3 Pro model
-            const response = await puter.ai.chat(
-                `Act as a YouTube SEO Specialist. For this video idea: "${input}", generate:
-                1. One catchy, high-CTR Title (max 70 chars).
-                2. A long, keyword-rich description (200+ words) with timestamp placeholders.
-                3. 5 viral hashtags.
-                Format the response exactly like this:
-                TITLE: [Title]
-                DESC: [Description]
-                TAGS: [Hashtags]`, 
-                { model: 'gemini-3-pro-preview', stream: true }
-            );
+            // Puter Auto-Login logic
+            if (!puter.auth.isSignedIn()) await puter.auth.signIn({ attempt_temp_user_creation: true });
+
+            // Constructing the prompt to include the competitor analysis
+            let prompt = `Act as a YouTube Growth Strategist. 
+            Step 1: Analyze this target topic: "${topic}".`;
+            
+            if (competitorUrl) {
+                prompt += `\nStep 2: Use your video understanding capabilities to analyze the successful elements of this competitor video: ${competitorUrl}. Extract its high-performing keywords, hook structure, and metadata strategy.`;
+            }
+
+            prompt += `\nStep 3: Based on this analysis, generate:
+            - A TITLE that is more clickable and keyword-optimized than the competitor.
+            - A 200-word SEO DESCRIPTION that includes high-ranking keywords and a call-to-action.
+            - 10 SMART TAGS.
+            
+            Format strictly:
+            TITLE: [Title]
+            DESC: [Description]
+            TAGS: [Tags]`;
+
+            const response = await puter.ai.chat(prompt, { 
+                model: 'gemini-3-pro-preview', 
+                stream: true 
+            });
 
             let fullText = "";
             for await (const part of response) {
-                if (part?.text) {
-                    fullText += part.text;
-                }
+                if (part?.text) fullText += part.text;
             }
 
-            // High-precision parsing
-            const title = fullText.split('TITLE:')[1]?.split('DESC:')[0]?.trim();
-            const desc = fullText.split('DESC:')[1]?.split('TAGS:')[0]?.trim();
-            const tags = fullText.split('TAGS:')[1]?.trim();
-
-            document.getElementById('resTitle').value = title || "Title Generated";
-            document.getElementById('resDesc').value = desc || "Description Generated";
-            document.getElementById('resTags').value = tags || "#SEO #YouTube";
+            // Parsing output
+            document.getElementById('resTitle').value = fullText.split('TITLE:')[1]?.split('DESC:')[0]?.trim() || "Generated Title";
+            document.getElementById('resDesc').value = fullText.split('DESC:')[1]?.split('TAGS:')[0]?.trim() || "Generated Description";
+            document.getElementById('resTags').value = fullText.split('TAGS:')[1]?.trim() || "#SEO #Viral";
 
         } catch (err) {
-            console.error("SEO Tool Error:", err);
-            alert("AI Error: Make sure you have a stable connection and are logged into Puter.");
+            console.error(err);
+            alert("Error: Analysis failed. Please check the URL and try again.");
         } finally {
             loader.style.display = 'none';
         }
     }
 
-    function copy(id) {
+    function copyText(id) {
         const el = document.getElementById(id);
         el.select();
         navigator.clipboard.writeText(el.value);
-        
-        // Simple UI feedback
-        const btn = document.querySelector(`[onclick="copy('${id}')"]`);
-        const original = btn.innerText;
-        btn.innerText = "COPIED!";
-        btn.style.color = "#2e7d32";
-        setTimeout(() => { 
-            btn.innerText = original; 
-            btn.style.color = "#1a73e8";
-        }, 2000);
+        alert("Metadata copied to clipboard!");
     }
 </script>
 
