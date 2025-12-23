@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI YouTube SEO Pro (Auto-Login)</title>
+    <title>AI YouTube SEO Pro (Gemini 2.5 Flash)</title>
     <script src="https://js.puter.com/v2/"></script>
     <style>
         :root { --yt-red: #ff0000; --bg: #f4f7f6; --card: #ffffff; --text: #333; }
@@ -18,18 +18,18 @@
         .circle { width: 50px; height: 50px; border: 4px solid #eee; border-top: 4px solid var(--yt-red); border-radius: 50%; animation: spin 1s linear infinite; }
         @keyframes spin { to { transform: rotate(360deg); } }
 
-        h1 { color: var(--yt-red); text-align: center; font-size: 26px; margin: 0; }
-        .key-active { color: #2e7d32; font-size: 11px; text-align: center; font-weight: bold; margin-bottom: 20px; background: #e8f5e9; padding: 5px; border-radius: 5px; margin-top: 10px; }
+        h1 { color: var(--yt-red); text-align: center; font-size: 26px; margin-bottom: 30px; }
+        .key-active { color: #2e7d32; font-size: 11px; text-align: center; font-weight: bold; margin-bottom: 20px; background: #e8f5e9; padding: 5px; border-radius: 5px; }
         
         label { display: block; margin-top: 15px; font-weight: 700; font-size: 12px; color: #666; text-transform: uppercase; }
         textarea, input { width: 100%; padding: 15px; border: 2px solid #f0f0f0; border-radius: 12px; box-sizing: border-box; margin-top: 8px; font-size: 15px; }
+        textarea:focus { border-color: var(--yt-red); outline: none; background: #fff; }
 
-        .gen-btn { background: var(--yt-red); color: white; border: none; padding: 18px; width: 100%; border-radius: 12px; font-size: 18px; font-weight: 800; cursor: pointer; margin-top: 30px; transition: 0.3s; }
+        .gen-btn { background: var(--yt-red); color: white; border: none; padding: 18px; width: 100%; border-radius: 12px; font-size: 18px; font-weight: 800; cursor: pointer; margin-top: 30px; transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
         .gen-btn:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(255,0,0,0.3); }
 
         .result-card { background: #fafafa; border: 1px solid #f0f0f0; padding: 20px; border-radius: 15px; margin-top: 25px; }
         .copy-link { float: right; color: #1a73e8; cursor: pointer; font-size: 12px; font-weight: 900; }
-        .user-status { font-size: 12px; color: #777; text-align: right; margin-bottom: -15px; }
     </style>
 </head>
 <body>
@@ -37,12 +37,11 @@
 <div class="container">
     <div id="loader">
         <div class="circle"></div>
-        <p id="loaderText" style="margin-top: 15px; font-weight: bold;">Logging in...</p>
+        <p style="margin-top: 15px; font-weight: bold;">Gemini 2.5 Flash is thinking...</p>
     </div>
 
-    <div id="status" class="user-status">Checking session...</div>
     <h1>YouTube SEO Architect</h1>
-    <div class="key-active">● SECURE AUTO-AUTH ENABLED</div>
+    <div class="key-active">● PUTER AUTO-LOGIN ACTIVE</div>
 
     <label>Describe your video idea</label>
     <textarea id="videoTopic" rows="4" placeholder="e.g., A tutorial on how to use AI to write better emails..."></textarea>
@@ -69,68 +68,55 @@
 </div>
 
 <script>
-    // 1. AUTO-LOGIN ON LOAD
-    window.onload = async () => {
-        if (!puter.auth.isSignedIn()) {
-            try {
-                // This creates a "Temporary User" automatically so they don't have to fill a form
-                await puter.auth.signIn({ attempt_temp_user_creation: true });
-                updateUserUI();
-            } catch (err) {
-                console.error("Auto-login failed:", err);
-            }
-        } else {
-            updateUserUI();
-        }
-    };
-
-    async function updateUserUI() {
-        const user = await puter.auth.getUser();
-        document.getElementById('status').innerText = `Logged in as: ${user.username}`;
-    }
-
     async function generateSEO() {
         const input = document.getElementById('videoTopic').value.trim();
         const loader = document.getElementById('loader');
-        const loaderText = document.getElementById('loaderText');
 
         if (!input) return alert("Please enter a video topic!");
 
-        // Ensure user is signed in before calling AI
-        if (!puter.auth.isSignedIn()) {
-            loaderText.innerText = "Authenticating...";
-            loader.style.display = 'flex';
-            await puter.auth.signIn({ attempt_temp_user_creation: true });
-        }
-
-        loaderText.innerText = "Gemini is thinking...";
         loader.style.display = 'flex';
 
-        try {
-            const response = await puter.ai.chat(
-                `Act as a YouTube SEO Specialist. For this video: "${input}", generate:
-                1. One catchy, high-CTR Title (max 70 chars).
-                2. A long description (200 words) with keyword density and timestamp placeholders.
-                3. 5 viral hashtags.
-                Format response exactly:
-                TITLE: [Title]
-                DESC: [Description]
-                TAGS: [Hashtags]`, 
-                { model: 'gemini-3-flash' }
-            );
+        // Clearing previous results
+        document.getElementById('resTitle').value = "";
+        document.getElementById('resDesc').value = "";
+        document.getElementById('resTags').value = "";
 
-            const text = response.toString();
-            
-            document.getElementById('resTitle').value = text.split('TITLE:')[1]?.split('DESC:')[0]?.trim() || "Generated Title";
-            document.getElementById('resDesc').value = text.split('DESC:')[1]?.split('TAGS:')[0]?.trim() || "Generated Description";
-            document.getElementById('resTags').value = text.split('TAGS:')[1]?.trim() || "#SEO #AI";
+        // Using the auto-login async pattern you provided
+        (async () => {
+            try {
+                const flash_resp = await puter.ai.chat(
+                    `Act as a YouTube SEO Specialist. For this video: "${input}", generate:
+                    1. One catchy, high-CTR Title (max 70 chars).
+                    2. A long description (200 words) with keyword density and timestamp placeholders.
+                    3. 5 viral hashtags.
+                    Format response exactly:
+                    TITLE: [Title]
+                    DESC: [Description]
+                    TAGS: [Hashtags]`,
+                    { model: 'gemini-2.5-flash', stream: true }
+                );
 
-        } catch (err) {
-            console.error(err);
-            alert("Connection Error. Please ensure you are logged into Puter.");
-        } finally {
-            loader.style.display = 'none';
-        }
+                let fullText = "";
+                for await (const part of flash_resp) {
+                    if (part?.text) {
+                        fullText += part.text;
+                        // Optional: Real-time parsing could go here, 
+                        // but for SEO we parse after the stream finishes for accuracy
+                    }
+                }
+
+                // Parse the final result
+                document.getElementById('resTitle').value = fullText.split('TITLE:')[1]?.split('DESC:')[0]?.trim() || "Generated Title";
+                document.getElementById('resDesc').value = fullText.split('DESC:')[1]?.split('TAGS:')[0]?.trim() || "Generated Description";
+                document.getElementById('resTags').value = fullText.split('TAGS:')[1]?.trim() || "#SEO #AI";
+
+            } catch (err) {
+                console.error("Puter Error:", err);
+                alert("AI Service temporary unavailable.");
+            } finally {
+                loader.style.display = 'none';
+            }
+        })();
     }
 
     function copy(id) {
