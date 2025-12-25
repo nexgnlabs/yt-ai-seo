@@ -3,124 +3,155 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Viral Script Architect v7.0 - Daily Limit Mode</title>
+    <title>YouTube SEO Pro - Daily Limit Edition</title>
     <style>
         :root { --yt-red: #ff0000; --bg: #0d0d0d; --card: #1a1a1a; --text: #f0f0f0; --accent: #00e676; }
         body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); padding: 20px; }
-        .container { max-width: 800px; margin: auto; background: var(--card); border-radius: 15px; padding: 30px; border: 1px solid #333; }
+        .container { max-width: 850px; margin: auto; background: var(--card); border-radius: 15px; padding: 30px; border: 1px solid #333; }
         
-        .limit-info { font-size: 12px; color: #aaa; text-align: center; margin-bottom: 10px; }
+        .limit-info { font-size: 13px; color: #aaa; text-align: center; margin-bottom: 10px; border-bottom: 1px solid #333; padding-bottom: 10px; }
         .limit-count { color: var(--accent); font-weight: bold; }
 
-        @keyframes flash { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
-        .flashing { animation: flash 1.5s infinite; color: var(--accent); font-weight: bold; }
+        @keyframes pulse { 0%, 100% { opacity: 1; color: var(--accent); } 50% { opacity: 0.4; color: #fff; } }
+        .loading-text { font-weight: bold; font-size: 16px; animation: pulse 1.5s infinite; margin-top: 15px; }
 
-        #progress-container { display: none; width: 100%; background: #000; border: 1px solid #444; border-radius: 20px; height: 25px; margin: 20px 0; position: relative; }
-        #progress-bar { width: 0%; height: 100%; background: var(--yt-red); border-radius: 20px; transition: width 0.3s; }
-        
+        #progress-container { display: none; width: 100%; background: #000; border: 1px solid #444; border-radius: 20px; height: 10px; margin: 15px 0; }
+        #progress-bar { width: 0%; height: 100%; background: var(--yt-red); border-radius: 20px; transition: width 0.4s; }
+
+        label { display: block; margin-top: 15px; font-size: 11px; color: #888; text-transform: uppercase; font-weight: bold; }
         input, textarea, select { width: 100%; padding: 12px; background: #000; border: 1px solid #444; border-radius: 8px; color: #fff; margin-bottom: 15px; box-sizing: border-box; }
-        .btn { background: var(--yt-red); color: #fff; border: none; padding: 15px; width: 100%; border-radius: 8px; font-weight: bold; cursor: pointer; }
-        .btn:disabled { background: #444; cursor: not-allowed; }
+        
+        .btn { background: var(--yt-red); color: #fff; border: none; padding: 18px; width: 100%; border-radius: 10px; font-size: 16px; font-weight: 800; cursor: pointer; transition: 0.3s; }
+        .btn:disabled { background: #444; cursor: not-allowed; opacity: 0.6; }
 
-        #output { background: #000; padding: 20px; border-radius: 10px; border: 1px solid #444; min-height: 200px; white-space: pre-wrap; margin-top: 20px; line-height: 1.6; }
-        .error-log { color: #ffbb00; font-size: 14px; margin-top: 15px; display: none; background: #332200; padding: 15px; border-radius: 8px; border: 1px solid #ffbb00; text-align: center; }
+        .result-box { background: #000; padding: 20px; border-radius: 10px; border: 1px solid #444; margin-top: 20px; position: relative; display: none; }
+        .copy-btn { position: absolute; top: 10px; right: 10px; color: #3ea6ff; cursor: pointer; font-size: 11px; font-weight: bold; }
+        .error-log { color: #ffbb00; font-size: 14px; margin-top: 15px; display: none; background: #332200; padding: 15px; border-radius: 8px; border: 1px solid #ffbb00; text-align: center; line-height: 1.4; }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h1 style="text-align: center; margin-bottom: 5px;">Script Architect Pro</h1>
-    <div class="limit-info">Daily Usage: <span id="usageCount" class="limit-count">0</span> / 5 Scripts</div>
+    <h1 style="text-align: center; color: #ff0000; margin-bottom: 5px;">YouTube SEO Pro</h1>
+    <div class="limit-info">Daily Usage: <span id="usageCount" class="limit-count">0</span> / 5 SEO Packages</div>
 
-    <label style="font-size:11px; color:#888;">GEMINI API KEY</label>
-    <input type="password" id="apiKey" placeholder="Paste your API key...">
+    <label>Gemini API Key</label>
+    <input type="password" id="apiKey" placeholder="Paste your API key here...">
 
-    <label style="font-size:11px; color:#888;">TOPIC</label>
-    <input type="text" id="topic" placeholder="e.g. Dhurandhar Movie Analysis">
+    <label>Video Topic / Focus</label>
+    <input type="text" id="topic" placeholder="e.g. Best Photoshop Secrets for 2026">
 
-    <label style="font-size:11px; color:#888;">DETAILS</label>
-    <textarea id="notes" rows="3" placeholder="Cast, Plot, Style instructions..."></textarea>
+    <label>Detailed Video Context</label>
+    <textarea id="notes" rows="3" placeholder="Explain what happens in the video for better SEO optimization..."></textarea>
 
-    <button id="genBtn" class="btn" onclick="generate()">GENERATE SCRIPT</button>
+    <div style="display: flex; gap: 15px;">
+        <div style="flex:1">
+            <label>Language Style</label>
+            <select id="lang">
+                <option value="Casual Day-to-Day Hinglish">Hinglish</option>
+                <option value="Easy Day-to-Day Hindi">Easy Hindi</option>
+                <option value="Global English">English</option>
+            </select>
+        </div>
+        <div style="flex:1">
+            <label>Niche</label>
+            <select id="niche">
+                <option value="Tech/Educational">Educational</option>
+                <option value="Entertainment/Vlog">Vlog</option>
+                <option value="Gaming">Gaming</option>
+            </select>
+        </div>
+    </div>
 
-    <div id="loading-area" style="display:none; text-align:center; margin-top:20px;">
-        <div class="flashing">ARCHITECTING YOUR VIRAL SCRIPT...</div>
+    <button id="genBtn" class="btn" onclick="generateSEO()">START DEEP SEO ANALYSIS</button>
+
+    <div id="loading-area" style="display:none; text-align:center;">
+        <div class="loading-text">ARCHITECTING YOUR VIRAL SEO...</div>
         <div id="progress-container">
             <div id="progress-bar"></div>
         </div>
     </div>
 
     <div id="errorLog" class="error-log"></div>
-    <div id="output">Your script will appear here...</div>
+
+    <div id="resTitleBox" class="result-box">
+        <span class="copy-btn" onclick="copy('resTitle')">COPY</span>
+        <label>Engineered High-CTR Title</label>
+        <input type="text" id="resTitle" readonly>
+    </div>
+
+    <div id="resDescBox" class="result-box">
+        <span class="copy-btn" onclick="copy('resDesc')">COPY</span>
+        <label>Strategic SEO Description</label>
+        <textarea id="resDesc" rows="8" readonly></textarea>
+    </div>
 </div>
 
 <script>
-    const MAX_DAILY_SCRIPTS = 5;
+    const MAX_DAILY = 5;
 
-    // Load Usage Data on Start
     window.onload = () => {
-        updateUsageUI();
-        const key = localStorage.getItem('_gemini_v7_key');
+        updateUI();
+        const key = localStorage.getItem('_seo_pro_key_v2');
         if (key) document.getElementById('apiKey').value = key;
     };
 
-    function updateUsageUI() {
-        const usage = getTodayUsage();
+    function updateUI() {
+        const usage = getUsage();
         document.getElementById('usageCount').innerText = usage;
-        if (usage >= MAX_DAILY_SCRIPTS) {
+        if (usage >= MAX_DAILY) {
             document.getElementById('genBtn').disabled = true;
-            document.getElementById('genBtn').innerText = "LIMIT REACHED FOR TODAY";
+            document.getElementById('genBtn').innerText = "DAILY LIMIT REACHED (5/5)";
         }
     }
 
-    function getTodayUsage() {
-        const dateKey = new Date().toISOString().split('T')[0]; // YYYY-MM-DD
-        const storedData = JSON.parse(localStorage.getItem('_usage_tracker') || '{}');
-        return storedData[dateKey] || 0;
+    function getUsage() {
+        const date = new Date().toISOString().split('T')[0];
+        const data = JSON.parse(localStorage.getItem('_seo_usage_log') || '{}');
+        return data[date] || 0;
     }
 
-    function incrementUsage() {
-        const dateKey = new Date().toISOString().split('T')[0];
-        const storedData = JSON.parse(localStorage.getItem('_usage_tracker') || '{}');
-        storedData[dateKey] = (storedData[dateKey] || 0) + 1;
-        localStorage.setItem('_usage_tracker', JSON.stringify(storedData));
-        updateUsageUI();
+    function trackUsage() {
+        const date = new Date().toISOString().split('T')[0];
+        const data = JSON.parse(localStorage.getItem('_seo_usage_log') || '{}');
+        data[date] = (data[date] || 0) + 1;
+        localStorage.setItem('_seo_usage_log', JSON.stringify(data));
+        updateUI();
     }
 
-    async function generate() {
+    async function generateSEO() {
         const key = document.getElementById('apiKey').value.trim();
         const topic = document.getElementById('topic').value;
         const notes = document.getElementById('notes').value;
-        const output = document.getElementById('output');
-        const errorLog = document.getElementById('errorLog');
+        const lang = document.getElementById('lang').value;
+        
+        if (getUsage() >= MAX_DAILY) return alert("Bhai, 5 scripts for today is finished. Come back tomorrow!");
+        if (!key || !topic) return alert("Bhai, Key aur Topic dono chahiye!");
+
+        localStorage.setItem('_seo_pro_key_v2', key);
+        
         const loader = document.getElementById('loading-area');
+        const errorLog = document.getElementById('errorLog');
         const bar = document.getElementById('progress-bar');
-
-        if (getTodayUsage() >= MAX_DAILY_SCRIPTS) {
-            return alert("You have reached your limit of 5 scripts for today.");
-        }
-
-        if (!key || !topic) return alert("Please fill API Key and Topic.");
-        localStorage.setItem('_gemini_v7_key', key);
+        const progContainer = document.getElementById('progress-container');
 
         loader.style.display = "block";
+        progContainer.style.display = "block";
         errorLog.style.display = "none";
-        output.innerText = "Processing...";
-        
-        let progress = 0;
-        const interval = setInterval(() => {
-            if (progress < 90) {
-                progress += 2;
-                bar.style.width = progress + "%";
-            }
-        }, 500);
+        document.getElementById('resTitleBox').style.display = "none";
+        document.getElementById('resDescBox').style.display = "none";
+
+        let p = 0;
+        const interval = setInterval(() => { if (p < 90) p += 5; bar.style.width = p + "%"; }, 400);
 
         try {
             const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent?key=${key}`;
             const response = await fetch(url, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ contents: [{ parts: [{ text: `Write a Hinglish YouTube script for ${topic}. Context: ${notes}` }] }] })
+                body: JSON.stringify({
+                    contents: [{ parts: [{ text: `Act as a YouTube SEO Expert. Topic: ${topic}. Context: ${notes}. Language: ${lang}. Provide a Viral Title and a 200-word Strategic Description. Format: TITLE: [text] DESC: [text]` }] }]
+                })
             });
 
             const data = await response.json();
@@ -129,22 +160,34 @@
             if (response.status === 429) {
                 errorLog.innerText = "Bhai, this is your current limit for the day. Come back tomorrow after 24 hours to generate more!";
                 errorLog.style.display = "block";
-                output.innerText = "Limit Reached.";
             } else if (data.candidates) {
                 bar.style.width = "100%";
                 setTimeout(() => {
+                    const fullText = data.candidates[0].content.parts[0].text;
+                    document.getElementById('resTitle').value = fullText.split('TITLE:')[1]?.split('DESC:')[0]?.trim();
+                    document.getElementById('resDesc').value = fullText.split('DESC:')[1]?.trim();
+                    
                     loader.style.display = "none";
-                    output.innerText = data.candidates[0].content.parts[0].text;
-                    incrementUsage(); // Only count successful generations
+                    document.getElementById('resTitleBox').style.display = "block";
+                    document.getElementById('resDescBox').style.display = "block";
+                    trackUsage();
                 }, 500);
             } else {
-                errorLog.innerText = "Error: " + JSON.stringify(data.error);
+                errorLog.innerText = "Error: " + (data.error?.message || "Something went wrong.");
                 errorLog.style.display = "block";
             }
-        } catch (err) {
+        } catch (e) {
             clearInterval(interval);
-            output.innerText = "System error occurred.";
+            errorLog.innerText = "Network Error. Please try again.";
+            errorLog.style.display = "block";
         }
+    }
+
+    function copy(id) {
+        const el = document.getElementById(id);
+        el.select();
+        navigator.clipboard.writeText(el.value);
+        alert("Copied!");
     }
 </script>
 
