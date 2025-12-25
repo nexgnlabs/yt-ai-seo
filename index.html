@@ -3,129 +3,90 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI YouTube Dual-Engine Architect (Bypass Edition)</title>
+    <title>AI YouTube SEO Architect (Stable)</title>
     <style>
         :root { --yt-red: #ff0000; --bg: #0f0f0f; --card: #1e1e1e; --text: #fff; --accent: #00ff88; }
         body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); padding: 15px; }
         .container { max-width: 850px; margin: 20px auto; background: var(--card); padding: 30px; border-radius: 20px; box-shadow: 0 10px 40px rgba(0,0,0,0.6); border: 1px solid #333; }
         
-        #loader {
-            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.9); z-index: 1000; flex-direction: column; align-items: center; justify-content: center;
-        }
+        #loader { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 1000; flex-direction: column; align-items: center; justify-content: center; }
         .circle { width: 60px; height: 60px; border: 5px solid #333; border-top: 5px solid var(--yt-red); border-radius: 50%; animation: spin 1s linear infinite; }
         @keyframes spin { to { transform: rotate(360deg); } }
 
-        h1 { text-align: center; color: var(--yt-red); margin-bottom: 5px; }
-        .badge-row { display: flex; justify-content: center; gap: 10px; margin-bottom: 20px; }
-        .badge { background: #2a2a2a; color: var(--accent); font-size: 10px; padding: 5px 12px; border-radius: 4px; border: 1px solid #444; font-weight: bold; }
-        
         .api-box { background: #111; border: 1px dashed #555; padding: 15px; border-radius: 10px; margin-bottom: 20px; }
-        .api-link { color: var(--accent); text-decoration: none; font-size: 12px; }
+        .api-link { color: var(--accent); text-decoration: none; font-size: 11px; font-weight: bold; }
 
-        label { display: block; margin-top: 20px; font-weight: 600; color: #ff4d4d; font-size: 13px; text-transform: uppercase; }
-        input, textarea { width: 100%; padding: 15px; background: #121212; border: 1px solid #333; border-radius: 10px; color: #fff; margin-top: 8px; box-sizing: border-box; font-family: inherit; }
+        label { display: block; margin-top: 20px; font-weight: 600; color: #ff4d4d; font-size: 12px; text-transform: uppercase; }
+        input, textarea { width: 100%; padding: 14px; background: #121212; border: 1px solid #333; border-radius: 10px; color: #fff; margin-top: 8px; box-sizing: border-box; }
 
-        .analyze-btn { background: var(--yt-red); color: white; border: none; padding: 20px; width: 100%; border-radius: 12px; font-size: 18px; font-weight: 800; cursor: pointer; margin-top: 25px; transition: 0.2s; }
-        .analyze-btn:hover { background: #cc0000; transform: scale(1.01); box-shadow: 0 0 20px rgba(255,0,0,0.4); }
+        .analyze-btn { background: var(--yt-red); color: white; border: none; padding: 18px; width: 100%; border-radius: 12px; font-size: 16px; font-weight: 800; cursor: pointer; margin-top: 25px; transition: 0.3s; }
+        .analyze-btn:hover { background: #cc0000; box-shadow: 0 0 15px rgba(255,0,0,0.3); }
 
         .result-box { margin-top: 25px; background: #252525; padding: 20px; border-radius: 12px; border-left: 4px solid var(--yt-red); position: relative; }
-        .copy-btn { position: absolute; top: 15px; right: 15px; color: #3ea6ff; cursor: pointer; font-size: 12px; font-weight: bold; }
-        .engine-tag { font-size: 9px; color: #777; margin-top: 5px; display: block; }
+        .copy-btn { position: absolute; top: 15px; right: 15px; color: #3ea6ff; cursor: pointer; font-size: 12px; }
     </style>
 </head>
 <body>
 
 <div id="loader">
     <div class="circle"></div>
-    <p id="loader-text" style="margin-top: 20px; font-weight: bold; color: white;">Architecting SEO...</p>
+    <p id="loader-text" style="margin-top: 20px; font-weight: bold; color: #00ff88;">ARCHITECTING SEO...</p>
 </div>
 
 <div class="container">
-    <h1>YouTube SEO Pro</h1>
-    <div class="badge-row">
-        <div class="badge">VISION: GEMINI 2.0 FLASH</div>
-        <div class="badge">LOGIC: SEMANTIC REASONING</div>
-    </div>
-
+    <h1 style="text-align: center; color: #ff0000;">YouTube SEO Pro</h1>
+    
     <div class="api-box">
-        <label style="margin-top:0; color: var(--accent);">Gemini API Key</label>
-        <input type="password" id="apiKey" placeholder="Paste your API Key here...">
-        <a href="https://aistudio.google.com/app/apikey" target="_blank" class="api-link">Get Free API Key from Google AI Studio</a>
+        <label style="margin-top:0; color: #00ff88;">Gemini API Key</label>
+        <input type="password" id="apiKey" placeholder="Paste key here...">
+        <a href="https://aistudio.google.com/app/apikey" target="_blank" class="api-link">Get Free Key</a> | 
+        <span style="font-size: 11px; color: #888;">Note: If quota is 0, link a Billing Account (still free).</span>
     </div>
 
-    <label>1. Competitor URL (Optional)</label>
-    <input type="text" id="competitorUrl" placeholder="https://www.youtube.com/watch?v=...">
+    <label>Video Vision / Idea</label>
+    <textarea id="videoTopic" rows="3" placeholder="Teach beginners how to bake a cake..."></textarea>
 
-    <label>2. Your Video Vision</label>
-    <textarea id="videoTopic" rows="3" placeholder="Explain your video idea in detail..."></textarea>
+    <button class="analyze-btn" onclick="runSEO()">START ANALYSIS</button>
 
-    <button class="analyze-btn" onclick="runDualEngineSEO()">START DEEP ANALYSIS</button>
-
-    <div class="result-box">
-        <span class="copy-btn" onclick="copyText('resTitle')">COPY</span>
-        <label>Engineered High-CTR Title</label>
-        <input type="text" id="resTitle" readonly placeholder="Awaiting logic...">
-        <span class="engine-tag">Optimized via Gemini Flash Reasoning</span>
-    </div>
-
-    <div class="result-box">
-        <span class="copy-btn" onclick="copyText('resDesc')">COPY</span>
-        <label>Strategic SEO Description</label>
-        <textarea id="resDesc" rows="8" readonly placeholder="Awaiting analysis..."></textarea>
-        <span class="engine-tag">Drafted & Polished for 2025 Algorithm</span>
-    </div>
-
-    <div class="result-box">
-        <span class="copy-btn" onclick="copyText('resTags')">COPY</span>
-        <label>Viral Search Keywords</label>
-        <input type="text" id="resTags" readonly placeholder="Awaiting tags...">
-        <span class="engine-tag">Cross-verified high-volume tags</span>
+    <div id="resultsArea" style="display:none;">
+        <div class="result-box">
+            <span class="copy-btn" onclick="copy('resTitle')">COPY</span>
+            <label>High-CTR Title</label>
+            <input type="text" id="resTitle" readonly>
+        </div>
+        <div class="result-box">
+            <span class="copy-btn" onclick="copy('resDesc')">COPY</span>
+            <label>SEO Description</label>
+            <textarea id="resDesc" rows="6" readonly></textarea>
+        </div>
+        <div class="result-box">
+            <span class="copy-btn" onclick="copy('resTags')">COPY</span>
+            <label>Viral Tags</label>
+            <input type="text" id="resTags" readonly>
+        </div>
     </div>
 </div>
 
 <script>
-    // Initialize saved key
     window.onload = () => {
-        const savedKey = localStorage.getItem('_seo_pro_key');
-        if (savedKey) document.getElementById('apiKey').value = savedKey;
+        const key = localStorage.getItem('_seo_key');
+        if (key) document.getElementById('apiKey').value = key;
     };
 
-    async function runDualEngineSEO() {
+    async function runSEO(attempt = 0) {
         const key = document.getElementById('apiKey').value.trim();
         const topic = document.getElementById('videoTopic').value.trim();
-        const competitorUrl = document.getElementById('competitorUrl').value.trim();
         const loader = document.getElementById('loader');
         const loaderText = document.getElementById('loader-text');
 
-        if (!key) return alert("Bhai, pehle Gemini API Key daalo!");
-        if (!topic) return alert("Please enter your video idea.");
-        
-        localStorage.setItem('_seo_pro_key', key);
+        if (!key || !topic) return alert("Bhai, Key aur Topic dono zaroori hain!");
+        localStorage.setItem('_seo_key', key);
         loader.style.display = 'flex';
 
-        try {
-            loaderText.innerText = "Analyzing Content Strategy...";
-            
-            const prompt = `
-                Act as a YouTube SEO Expert and Viral Strategist.
-                Video Idea: "${topic}"
-                Competitor Reference: "${competitorUrl}"
-                
-                TASK:
-                1. Analyze the psychological triggers for this topic.
-                2. Generate a high-CTR title (Hinglish/English mix if applicable).
-                3. Write a 200+ word SEO-optimized description including a hook, overview, and timestamps placeholders.
-                4. Provide 10 viral hashtags and search tags.
-                
-                FORMAT YOUR RESPONSE EXACTLY LIKE THIS:
-                TITLE: [Title here]
-                DESC: [Description here]
-                TAGS: [Tags and Hashtags here]
-            `;
+        const prompt = `Act as a YouTube SEO Expert. Generate a Viral Title, 200-word Description, and 10 Tags for: "${topic}". Format as TITLE: [title] DESC: [desc] TAGS: [tags]`;
 
-            const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${key}`;
-            
+        try {
+            const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${key}`;
             const response = await fetch(url, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -134,33 +95,35 @@
 
             const data = await response.json();
 
-            if (data.candidates && data.candidates[0].content) {
-                const finalSEO = data.candidates[0].content.parts[0].text;
-
-                // Parsing output
-                document.getElementById('resTitle').value = finalSEO.split('TITLE:')[1]?.split('DESC:')[0]?.trim() || "Title not found";
-                document.getElementById('resDesc').value = finalSEO.split('DESC:')[1]?.split('TAGS:')[0]?.trim() || "Description not found";
-                document.getElementById('resTags').value = finalSEO.split('TAGS:')[1]?.trim() || "#SEO #Viral";
-                
-                loaderText.innerText = "SEO Engineered Successfully!";
-                setTimeout(() => { loader.style.display = 'none'; }, 500);
-            } else {
-                throw new Error(data.error ? data.error.message : "API limit reached or invalid key.");
+            // Handle Quota Exceeded (429) with Auto-Retry
+            if (response.status === 429 && attempt < 2) {
+                loaderText.innerText = `Quota Busy... Retrying in 2s (${attempt + 1}/2)`;
+                await new Promise(r => setTimeout(r, 2000));
+                return runSEO(attempt + 1);
             }
 
-        } catch (err) {
-            console.error(err);
-            alert("Error: " + err.message);
+            if (data.candidates) {
+                const text = data.candidates[0].content.parts[0].text;
+                document.getElementById('resTitle').value = text.split('TITLE:')[1]?.split('DESC:')[0]?.trim();
+                document.getElementById('resDesc').value = text.split('DESC:')[1]?.split('TAGS:')[0]?.trim();
+                document.getElementById('resTags').value = text.split('TAGS:')[1]?.trim();
+                document.getElementById('resultsArea').style.display = 'block';
+                loader.style.display = 'none';
+            } else {
+                alert("Error: " + (data.error?.message || "Check API Key limits."));
+                loader.style.display = 'none';
+            }
+        } catch (e) {
+            alert("Connection Error.");
             loader.style.display = 'none';
         }
     }
 
-    function copyText(id) {
+    function copy(id) {
         const el = document.getElementById(id);
-        if (!el.value) return;
         el.select();
         navigator.clipboard.writeText(el.value);
-        alert("Copied to clipboard!");
+        alert("Copied!");
     }
 </script>
 
