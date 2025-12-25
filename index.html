@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI YouTube SEO Architect (Stable)</title>
+    <title>AI YouTube SEO Pro (2025 Fixed)</title>
     <style>
         :root { --yt-red: #ff0000; --bg: #0f0f0f; --card: #1e1e1e; --text: #fff; --accent: #00ff88; }
         body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); padding: 15px; }
@@ -24,13 +24,14 @@
 
         .result-box { margin-top: 25px; background: #252525; padding: 20px; border-radius: 12px; border-left: 4px solid var(--yt-red); position: relative; }
         .copy-btn { position: absolute; top: 15px; right: 15px; color: #3ea6ff; cursor: pointer; font-size: 12px; }
+        .status-msg { font-size: 11px; color: #888; margin-top: 10px; display: block; }
     </style>
 </head>
 <body>
 
 <div id="loader">
     <div class="circle"></div>
-    <p id="loader-text" style="margin-top: 20px; font-weight: bold; color: #00ff88;">ARCHITECTING SEO...</p>
+    <p id="loader-text" style="margin-top: 20px; font-weight: bold; color: #00ff88;">SEO ENGINE: GEMINI 2.5 FLASH-LITE...</p>
 </div>
 
 <div class="container">
@@ -39,12 +40,11 @@
     <div class="api-box">
         <label style="margin-top:0; color: #00ff88;">Gemini API Key</label>
         <input type="password" id="apiKey" placeholder="Paste key here...">
-        <a href="https://aistudio.google.com/app/apikey" target="_blank" class="api-link">Get Free Key</a> | 
-        <span style="font-size: 11px; color: #888;">Note: If quota is 0, link a Billing Account (still free).</span>
+        <a href="https://aistudio.google.com/app/apikey" target="_blank" class="api-link">Get New Key (Required for 2025)</a>
     </div>
 
     <label>Video Vision / Idea</label>
-    <textarea id="videoTopic" rows="3" placeholder="Teach beginners how to bake a cake..."></textarea>
+    <textarea id="videoTopic" rows="3" placeholder="Describe your video idea (e.g. Photoshop tutorial for beginners)..."></textarea>
 
     <button class="analyze-btn" onclick="runSEO()">START ANALYSIS</button>
 
@@ -61,10 +61,11 @@
         </div>
         <div class="result-box">
             <span class="copy-btn" onclick="copy('resTags')">COPY</span>
-            <label>Viral Tags</label>
+            <label>Viral Tags & Hashtags</label>
             <input type="text" id="resTags" readonly>
         </div>
     </div>
+    <span class="status-msg">Note: If you still see a 404, check that your key is created in a NEW project on AI Studio.</span>
 </div>
 
 <script>
@@ -73,7 +74,7 @@
         if (key) document.getElementById('apiKey').value = key;
     };
 
-    async function runSEO(attempt = 0) {
+    async function runSEO() {
         const key = document.getElementById('apiKey').value.trim();
         const topic = document.getElementById('videoTopic').value.trim();
         const loader = document.getElementById('loader');
@@ -83,10 +84,19 @@
         localStorage.setItem('_seo_key', key);
         loader.style.display = 'flex';
 
-        const prompt = `Act as a YouTube SEO Expert. Generate a Viral Title, 200-word Description, and 10 Tags for: "${topic}". Format as TITLE: [title] DESC: [desc] TAGS: [tags]`;
+        // SEO Expert Prompt
+        const prompt = `Act as a YouTube SEO Expert for 2025. 
+        Create a high-CTR Viral Title, 200-word Strategic Description, and 10 Tags for: "${topic}". 
+        Language: Casual Hinglish mix.
+        Format strictly as: 
+        TITLE: [title] 
+        DESC: [desc] 
+        TAGS: [tags]`;
 
         try {
-            const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${key}`;
+            // Using Gemini 2.5 Flash-Lite (The current stable workhorse)
+            const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent?key=${key}`;
+            
             const response = await fetch(url, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -95,14 +105,7 @@
 
             const data = await response.json();
 
-            // Handle Quota Exceeded (429) with Auto-Retry
-            if (response.status === 429 && attempt < 2) {
-                loaderText.innerText = `Quota Busy... Retrying in 2s (${attempt + 1}/2)`;
-                await new Promise(r => setTimeout(r, 2000));
-                return runSEO(attempt + 1);
-            }
-
-            if (data.candidates) {
+            if (data.candidates && data.candidates[0].content) {
                 const text = data.candidates[0].content.parts[0].text;
                 document.getElementById('resTitle').value = text.split('TITLE:')[1]?.split('DESC:')[0]?.trim();
                 document.getElementById('resDesc').value = text.split('DESC:')[1]?.split('TAGS:')[0]?.trim();
@@ -110,11 +113,11 @@
                 document.getElementById('resultsArea').style.display = 'block';
                 loader.style.display = 'none';
             } else {
-                alert("Error: " + (data.error?.message || "Check API Key limits."));
+                alert("API Error: " + (data.error?.message || "Model selection error. Make sure to use gemini-2.5-flash-lite."));
                 loader.style.display = 'none';
             }
         } catch (e) {
-            alert("Connection Error.");
+            alert("System Error: Connection failed.");
             loader.style.display = 'none';
         }
     }
