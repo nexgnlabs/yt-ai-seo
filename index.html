@@ -3,12 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI YouTube Dual-Engine Architect (GPT-5 + Gemini 3)</title>
-    <script src="https://js.puter.com/v2/"></script>
+    <title>AI YouTube Dual-Engine Architect (Bypass Edition)</title>
     <style>
-        :root { --yt-red: #ff0000; --bg: #0f0f0f; --card: #1e1e1e; --text: #fff; }
+        :root { --yt-red: #ff0000; --bg: #0f0f0f; --card: #1e1e1e; --text: #fff; --accent: #00ff88; }
         body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); padding: 15px; }
-        .container { max-width: 850px; margin: 20px auto; background: var(--card); padding: 30px; border-radius: 20px; box-shadow: 0 10px 40px rgba(0,0,0,0.6); }
+        .container { max-width: 850px; margin: 20px auto; background: var(--card); padding: 30px; border-radius: 20px; box-shadow: 0 10px 40px rgba(0,0,0,0.6); border: 1px solid #333; }
         
         #loader {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
@@ -19,10 +18,13 @@
 
         h1 { text-align: center; color: var(--yt-red); margin-bottom: 5px; }
         .badge-row { display: flex; justify-content: center; gap: 10px; margin-bottom: 20px; }
-        .badge { background: #2a2a2a; color: #00ff88; font-size: 10px; padding: 5px 12px; border-radius: 4px; border: 1px solid #444; font-weight: bold; }
+        .badge { background: #2a2a2a; color: var(--accent); font-size: 10px; padding: 5px 12px; border-radius: 4px; border: 1px solid #444; font-weight: bold; }
         
+        .api-box { background: #111; border: 1px dashed #555; padding: 15px; border-radius: 10px; margin-bottom: 20px; }
+        .api-link { color: var(--accent); text-decoration: none; font-size: 12px; }
+
         label { display: block; margin-top: 20px; font-weight: 600; color: #ff4d4d; font-size: 13px; text-transform: uppercase; }
-        input, textarea { width: 100%; padding: 15px; background: #121212; border: 1px solid #333; border-radius: 10px; color: #fff; margin-top: 8px; box-sizing: border-box; }
+        input, textarea { width: 100%; padding: 15px; background: #121212; border: 1px solid #333; border-radius: 10px; color: #fff; margin-top: 8px; box-sizing: border-box; font-family: inherit; }
 
         .analyze-btn { background: var(--yt-red); color: white; border: none; padding: 20px; width: 100%; border-radius: 12px; font-size: 18px; font-weight: 800; cursor: pointer; margin-top: 25px; transition: 0.2s; }
         .analyze-btn:hover { background: #cc0000; transform: scale(1.01); box-shadow: 0 0 20px rgba(255,0,0,0.4); }
@@ -36,98 +38,129 @@
 
 <div id="loader">
     <div class="circle"></div>
-    <p id="loader-text" style="margin-top: 20px; font-weight: bold;">Step 1: Gemini 3 Analyzing Content...</p>
+    <p id="loader-text" style="margin-top: 20px; font-weight: bold; color: white;">Architecting SEO...</p>
 </div>
 
 <div class="container">
     <h1>YouTube SEO Pro</h1>
     <div class="badge-row">
-        <div class="badge">VISION: GEMINI 3 PRO</div>
-        <div class="badge">LOGIC: GPT-5 (2025 EDITION)</div>
+        <div class="badge">VISION: GEMINI 2.0 FLASH</div>
+        <div class="badge">LOGIC: SEMANTIC REASONING</div>
     </div>
 
-    <label>1. Competitor URL</label>
+    <div class="api-box">
+        <label style="margin-top:0; color: var(--accent);">Gemini API Key</label>
+        <input type="password" id="apiKey" placeholder="Paste your API Key here...">
+        <a href="https://aistudio.google.com/app/apikey" target="_blank" class="api-link">Get Free API Key from Google AI Studio</a>
+    </div>
+
+    <label>1. Competitor URL (Optional)</label>
     <input type="text" id="competitorUrl" placeholder="https://www.youtube.com/watch?v=...">
 
     <label>2. Your Video Vision</label>
-    <textarea id="videoTopic" rows="3" placeholder="I am teaching beginners how to use Photoshop..."></textarea>
+    <textarea id="videoTopic" rows="3" placeholder="Explain your video idea in detail..."></textarea>
 
     <button class="analyze-btn" onclick="runDualEngineSEO()">START DEEP ANALYSIS</button>
 
     <div class="result-box">
         <span class="copy-btn" onclick="copyText('resTitle')">COPY</span>
         <label>Engineered High-CTR Title</label>
-        <input type="text" id="resTitle" readonly>
-        <span class="engine-tag">Optimized by GPT-5 Reasoning</span>
+        <input type="text" id="resTitle" readonly placeholder="Awaiting logic...">
+        <span class="engine-tag">Optimized via Gemini Flash Reasoning</span>
     </div>
 
     <div class="result-box">
         <span class="copy-btn" onclick="copyText('resDesc')">COPY</span>
         <label>Strategic SEO Description</label>
-        <textarea id="resDesc" rows="8" readonly></textarea>
-        <span class="engine-tag">Drafted via Gemini 3 & Polished by GPT-5</span>
+        <textarea id="resDesc" rows="8" readonly placeholder="Awaiting analysis..."></textarea>
+        <span class="engine-tag">Drafted & Polished for 2025 Algorithm</span>
     </div>
 
     <div class="result-box">
         <span class="copy-btn" onclick="copyText('resTags')">COPY</span>
         <label>Viral Search Keywords</label>
-        <input type="text" id="resTags" readonly>
-        <span class="engine-tag">Cross-verified tags</span>
+        <input type="text" id="resTags" readonly placeholder="Awaiting tags...">
+        <span class="engine-tag">Cross-verified high-volume tags</span>
     </div>
 </div>
 
 <script>
+    // Initialize saved key
+    window.onload = () => {
+        const savedKey = localStorage.getItem('_seo_pro_key');
+        if (savedKey) document.getElementById('apiKey').value = savedKey;
+    };
+
     async function runDualEngineSEO() {
+        const key = document.getElementById('apiKey').value.trim();
         const topic = document.getElementById('videoTopic').value.trim();
         const competitorUrl = document.getElementById('competitorUrl').value.trim();
         const loader = document.getElementById('loader');
         const loaderText = document.getElementById('loader-text');
 
+        if (!key) return alert("Bhai, pehle Gemini API Key daalo!");
         if (!topic) return alert("Please enter your video idea.");
+        
+        localStorage.setItem('_seo_pro_key', key);
         loader.style.display = 'flex';
 
         try {
-            // STEP 1: Gemini 3 Pro analyzes the competitor video context
-            loaderText.innerText = "Step 1: Gemini 3 Pro analyzing competitor strategy...";
-            const geminiPrompt = `Analyze the successful strategy behind this video topic: "${topic}" and competitor: "${competitorUrl}". 
-            Identify the core psychological hooks used and extract the high-volume keywords. 
-            Output ONLY a summary of these findings.`;
+            loaderText.innerText = "Analyzing Content Strategy...";
             
-            const geminiResponse = await puter.ai.chat(geminiPrompt, { model: 'gemini-3-pro-preview' });
-            const analysisData = geminiResponse.toString();
+            const prompt = `
+                Act as a YouTube SEO Expert and Viral Strategist.
+                Video Idea: "${topic}"
+                Competitor Reference: "${competitorUrl}"
+                
+                TASK:
+                1. Analyze the psychological triggers for this topic.
+                2. Generate a high-CTR title (Hinglish/English mix if applicable).
+                3. Write a 200+ word SEO-optimized description including a hook, overview, and timestamps placeholders.
+                4. Provide 10 viral hashtags and search tags.
+                
+                FORMAT YOUR RESPONSE EXACTLY LIKE THIS:
+                TITLE: [Title here]
+                DESC: [Description here]
+                TAGS: [Tags and Hashtags here]
+            `;
 
-            // STEP 2: GPT-5 takes the analysis and writes the final SEO package
-            loaderText.innerText = "Step 2: GPT-5 engineering final SEO package...";
-            const gptPrompt = `Based on this expert analysis: [${analysisData}], 
-            generate a professional YouTube SEO package for a new video titled "${topic}". 
-            Ensure the title has a 10/10 CTR score and the description is optimized for the 2025 algorithm.
+            const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${key}`;
             
-            Format strictly:
-            TITLE: [Catchy Title]
-            DESC: [200+ word Description]
-            TAGS: [10 Viral Hashtags]`;
+            const response = await fetch(url, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] })
+            });
 
-            const gptResponse = await puter.ai.chat(gptPrompt, { model: 'gpt-5' });
-            const finalSEO = gptResponse.toString();
+            const data = await response.json();
 
-            // Parsing output
-            document.getElementById('resTitle').value = finalSEO.split('TITLE:')[1]?.split('DESC:')[0]?.trim() || "Title Error";
-            document.getElementById('resDesc').value = finalSEO.split('DESC:')[1]?.split('TAGS:')[0]?.trim() || "Description Error";
-            document.getElementById('resTags').value = finalSEO.split('TAGS:')[1]?.trim() || "#SEO";
+            if (data.candidates && data.candidates[0].content) {
+                const finalSEO = data.candidates[0].content.parts[0].text;
+
+                // Parsing output
+                document.getElementById('resTitle').value = finalSEO.split('TITLE:')[1]?.split('DESC:')[0]?.trim() || "Title not found";
+                document.getElementById('resDesc').value = finalSEO.split('DESC:')[1]?.split('TAGS:')[0]?.trim() || "Description not found";
+                document.getElementById('resTags').value = finalSEO.split('TAGS:')[1]?.trim() || "#SEO #Viral";
+                
+                loaderText.innerText = "SEO Engineered Successfully!";
+                setTimeout(() => { loader.style.display = 'none'; }, 500);
+            } else {
+                throw new Error(data.error ? data.error.message : "API limit reached or invalid key.");
+            }
 
         } catch (err) {
             console.error(err);
-            alert("Analysis failed. Ensure you are logged into Puter.");
-        } finally {
+            alert("Error: " + err.message);
             loader.style.display = 'none';
         }
     }
 
     function copyText(id) {
         const el = document.getElementById(id);
+        if (!el.value) return;
         el.select();
         navigator.clipboard.writeText(el.value);
-        alert("Copied!");
+        alert("Copied to clipboard!");
     }
 </script>
 
