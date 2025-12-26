@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>YouTube SEO Pro - Stable Edition</title>
+    <title>YouTube SEO Pro - Marathi Edition</title>
     <style>
         :root { --yt-red: #ff0000; --bg: #0d0d0d; --card: #1a1a1a; --text: #f0f0f0; --accent: #00e676; }
         body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); padding: 20px; }
@@ -45,6 +45,7 @@
     <select id="lang">
         <option value="Casual Day-to-Day Hinglish">Hinglish</option>
         <option value="Easy Day-to-Day Hindi">Easy Hindi</option>
+        <option value="Simple Day-to-Day Marathi">Simple Marathi</option>
         <option value="Global English">English</option>
     </select>
 
@@ -136,7 +137,7 @@
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
-                    contents: [{ parts: [{ text: `YouTube SEO Expert: Generate a high-CTR Title and a 200-word Strategic Description for "${topic}" in ${lang}. Context: ${notes}. Format strictly as TITLE: [text] DESC: [text]` }] }]
+                    contents: [{ parts: [{ text: `YouTube SEO Expert: Generate a high-CTR Title and a 200-word Strategic Description for "${topic}" in ${lang}. Use simple, spoken regional words. Context: ${notes}. Format strictly as TITLE: [text] DESC: [text]` }] }]
                 })
             });
 
